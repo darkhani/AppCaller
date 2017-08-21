@@ -9,7 +9,12 @@
 import UIKit
 
 class ViewController: UIViewController {
+    @IBOutlet weak var key1: UITextField!
+    @IBOutlet weak var key2: UITextField!
 
+    @IBOutlet weak var value1: UITextField!
+    @IBOutlet weak var value2: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -21,7 +26,20 @@ class ViewController: UIViewController {
     }
 
     @IBAction func touchURLButton(_ sender: Any) {
-        let url:URL = URL(string: "callTestApp://?test=1")!
+        var urlString:String = "callTestApp://?"
+        if key1.text != "" && value1.text != "" {
+            urlString = urlString.appending("\(key1.text!)=\(value1.text!)")
+        }
+        
+        if key2.text != "" && value2.text != "" {
+            urlString = urlString.appending("&\(key2.text!)=\(value2.text!)")
+        }
+        
+        if urlString == "callTestApp://?" {
+            urlString = "callTestApp://?test=1"
+        }
+//        let url:URL = URL(string: "callTestApp://?test=1")!
+        let url:URL = URL(string: urlString)!
         if UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.openURL(url)
         } else {
